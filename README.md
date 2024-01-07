@@ -12,6 +12,10 @@ Things available in the sidebar:
 - Quickly rename in-game objects weights to match rigify weights names (**Only when meshes are selected**)
 - Quick toggle of pose and rest position for armatures (**Only when armatures are selected**)
 
+## Requirements
+
+- Blender 4.0.0 (probably works on pre-4.0 too)
+
 ## Installation
 
 Download this repository as a ZIP file, install in Blender through the "Install" button in the Blender Addon window.
@@ -20,8 +24,13 @@ Download this repository as a ZIP file, install in Blender through the "Install"
 
 ### 3D View
 
+ - [ ] Common fixes to an object's modifier stack order (Armature first, Subdivision last)
  - [ ] Fix issues with `Knee` and `Elbow` weights
+   - [ ] Add (and apply?) `VertexWeightMix` modifier; A=DEF-forearm.L, B=Elbow_L, Vertex Set=All, Mix Mode=Add
  - [ ] Ability to easily add character-related properties on rigs (like ink color, skin tone, etc)
+ - [ ] Toggle for mesh symmetry in the X axis
+ - [ ] Create empty vertex groups for the opposite side (`Toe_L` -> `Toe_R`, for shoes w/ mirror modifier)
+ - [ ] Rename vertex groups from one side to the other (rename groups from `_L` to `_R`)
 
 ### Other ???
 
