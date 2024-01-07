@@ -15,3 +15,20 @@ Things available in the sidebar:
 ## Installation
 
 Currently, download `surimi_toolkit.py`, install into Blender by clicking the "Install" button from Blender Addon window.
+
+## Things that need doing
+
+### 3D View
+
+ - [ ] Fix issues with `Knee` and `Elbow` weights
+ - [ ] Ability to easily add character-related properties on rigs (like ink color, skin tone, etc)
+
+### Other ???
+
+ - [ ] Make it easier to make a nodegroup or similar that has characer properties for use in nodes (making drivers by hand is boring)
+
+## Acknowledgements
+
+ - Floaty64 for giving tons of valuable feedback
+ - ChaoticPan for volunteering to test this out
+ - @ranjian0 for the tool of generating Python module stubs to get editor integration in VS Code Intellisense
