@@ -14,7 +14,7 @@ Things available in the sidebar:
 
 ## Installation
 
-Currently, download `surimi_toolkit.py`, install into Blender by clicking the "Install" button from Blender Addon window.
+Download this repository as a ZIP file, install in Blender through the "Install" button in the Blender Addon window.
 
 ## Things that need doing
 
