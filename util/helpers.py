@@ -12,3 +12,9 @@ def get_armature(obj: T.Object) -> T.Armature:
 
 def is_in_pose_position(armature: T.Armature):
     return armature.pose_position == 'POSE'
+
+#
+
+
+def pluralize(num: int, term: str):
+    return f'{str}{"s"[:num^1]}'
