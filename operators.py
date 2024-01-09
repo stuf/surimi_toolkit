@@ -2,7 +2,7 @@ import logging
 import bpy
 import bpy.types as T
 
-from .lookup import WEIGHT_LOOKUP
+from .util.lookup import WEIGHT_LOOKUP
 
 logger = logging.getLogger(__name__)
 
