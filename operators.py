@@ -1,14 +1,16 @@
 import logging
 import bpy
 import bpy.types as T
+import bpy.props as P
 
 from .util.lookup import WEIGHT_LOOKUP
+from .declarations import Operators as Ot
 
 logger = logging.getLogger(__name__)
 
 
 class OBJECT_OT_surimi_toggle_pose_position(T.Operator):
-    bl_idname = 'surimi.toggle_pose_position'
+    bl_idname = Ot.TOGGLE_POSE_POSITION
     bl_label = 'Toggle Pose Position'
     bl_description = 'Toggles pose position for the selected armature'
     bl_options = {'REGISTER', 'UNDO'}
@@ -25,7 +27,7 @@ class OBJECT_OT_surimi_toggle_pose_position(T.Operator):
 
 
 class OBJECT_OT_surimi_rename_weights(T.Operator):
-    bl_idname = 'surimi.rename_weights'
+    bl_idname = Ot.RENAME_WEIGHTS
     bl_label = 'Rename Weights'
     bl_description = 'Rename weights on selected meshes' \
         'to matching Rigify ones if they exist'
@@ -95,10 +97,19 @@ class OBJECT_OT_surimi_rename_weights(T.Operator):
 
         return {'FINISHED'}
 
+#
+
+
+class OBJECT_OT_surimi_create_character_props(T.Operator):
+    bl_idname = Ot.CREATE_CHARACTER_PROPS
+
+#
+
 
 classes = [
     OBJECT_OT_surimi_rename_weights,
     OBJECT_OT_surimi_toggle_pose_position,
+    OBJECT_OT_surimi_create_character_props,
 ]
 
 

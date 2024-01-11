@@ -1,9 +1,13 @@
 import bpy
 import bpy.types as T
+import bpy.props as P
+from bpy import context as C
 
+from ..declarations import Panels as Pt
 from ..util.helpers import is_in_pose_position
 from ..operators import (OBJECT_OT_surimi_rename_weights,
-                         OBJECT_OT_surimi_toggle_pose_position)
+                         OBJECT_OT_surimi_toggle_pose_position,
+                         )
 
 
 class SURIMI_PT_panel_base(T.Panel):
@@ -13,7 +17,7 @@ class SURIMI_PT_panel_base(T.Panel):
 
 
 class SURIMI_PT_panel_main(SURIMI_PT_panel_base):
-    bl_idname = 'SURIMI_PT_panel_main'
+    bl_idname = Pt.TOOLS
     bl_label = 'Surimi Toolkit'
 
     def draw(self, ctx):
@@ -21,6 +25,7 @@ class SURIMI_PT_panel_main(SURIMI_PT_panel_base):
 
 
 class SURIMI_PT_panel_render(SURIMI_PT_panel_base):
+    bl_idname = Pt.TOOLS_RENDER
     bl_label = 'Render'
     bl_parent_id = SURIMI_PT_panel_main.bl_idname
 
@@ -42,6 +47,7 @@ class SURIMI_PT_panel_render(SURIMI_PT_panel_base):
 
 
 class SURIMI_PT_panel_viewport(SURIMI_PT_panel_base):
+    bl_idname = Pt.TOOLS_VIEWPORT
     bl_label = 'Viewport'
     bl_parent_id = SURIMI_PT_panel_main.bl_idname
 
@@ -61,6 +67,7 @@ class SURIMI_PT_panel_viewport(SURIMI_PT_panel_base):
 
 
 class SURIMI_PT_panel_armature(SURIMI_PT_panel_base):
+    bl_idname = Pt.TOOLS_ARMATURE
     bl_label = 'Armature'
     bl_parent_id = SURIMI_PT_panel_main.bl_idname
 
@@ -87,7 +94,7 @@ class SURIMI_PT_panel_armature(SURIMI_PT_panel_base):
 
 
 class SURIMI_PT_panel_object(SURIMI_PT_panel_base):
-    bl_idname = 'SURIMI_PT_panel_object'
+    bl_idname = Pt.TOOLS_OBJECT
     bl_label = 'Object'
     bl_parent_id = SURIMI_PT_panel_main.bl_idname
 
@@ -102,8 +109,8 @@ class SURIMI_PT_panel_object(SURIMI_PT_panel_base):
         row = layout.column()
         row.operator(OBJECT_OT_surimi_rename_weights.bl_idname)
 
-#
 
+#
 
 classes = [
     SURIMI_PT_panel_main,
