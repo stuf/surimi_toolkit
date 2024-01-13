@@ -3,8 +3,9 @@ import bpy.types as T
 import bpy.props as P
 from bpy import context as C
 
-from ..declarations import Panels as Pt
+from ..declarations import Panels as Pt, Operators as Ot
 from ..util.helpers import is_in_pose_position
+from ..util.preferences import is_experimental
 from ..operators import (OBJECT_OT_surimi_rename_weights,
                          OBJECT_OT_surimi_toggle_pose_position,
                          )
@@ -112,12 +113,64 @@ class SURIMI_PT_panel_object(SURIMI_PT_panel_base):
 
 #
 
+class SURIMI_PT_panel_experimental(SURIMI_PT_panel_base):
+    bl_idname = Pt.TOOLS_EXPERIMENTAL
+    bl_label = 'Experimental'
+    bl_parent_id = SURIMI_PT_panel_main.bl_idname
+
+    @classmethod
+    def poll(cls, ctx: T.Context):
+        return is_experimental()
+
+    def draw(self, ctx: T.Context):
+        layout = self.layout
+        obj = ctx.active_object
+        props = obj.surimi_props
+
+        col = layout.column(align=True)
+        col.enabled = False
+
+        row = col.column()
+        row.operator(Ot.CREATE_CHARACTER_PROPS)
+        row.operator(Ot.CREATE_CHARACTER_PROPS, text="Create Nodegroups")
+
+        col.separator()
+
+        row = col.box().row()
+        row.prop(props, 'character_color_1')
+
+        row = col.box().row()
+        row.prop(props, 'character_color_2')
+
+        col.separator()
+
+        row = col.box().row()
+        row.prop(props, 'skin_tone_1')
+
+        row = col.box().row()
+        row.prop(props, 'skin_tone_2')
+
+        row = col.box().row()
+        row.prop(props, 'skin_tone_3')
+
+        col.separator()
+
+        row = col.box().row()
+        row.prop(props, 'eye_pupil_size')
+
+        row = col.box().row()
+        row.prop(props, 'eye_pupil_depth')
+
+
+#
+
 classes = [
     SURIMI_PT_panel_main,
     SURIMI_PT_panel_viewport,
     SURIMI_PT_panel_render,
     SURIMI_PT_panel_object,
     SURIMI_PT_panel_armature,
+    SURIMI_PT_panel_experimental,
 ]
 
 

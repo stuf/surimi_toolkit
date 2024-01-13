@@ -14,3 +14,4 @@ class Panels(str, Enum):
     TOOLS_RENDER = 'SURIMI_PT_panel_render'
     TOOLS_ARMATURE = 'SURIMI_PT_panel_armature'
     TOOLS_OBJECT = 'SURIMI_PT_panel_object'
+    TOOLS_EXPERIMENTAL = 'SURIMI_PT_panel_experimental'

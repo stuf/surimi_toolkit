@@ -2,9 +2,11 @@ import logging
 import bpy
 import bpy.types as T
 import bpy.props as P
+from typing import Tuple
 
 from .util.lookup import WEIGHT_LOOKUP
 from .declarations import Operators as Ot
+from .properties import CharacterProps
 
 logger = logging.getLogger(__name__)
 
@@ -102,6 +104,11 @@ class OBJECT_OT_surimi_rename_weights(T.Operator):
 
 class OBJECT_OT_surimi_create_character_props(T.Operator):
     bl_idname = Ot.CREATE_CHARACTER_PROPS
+    bl_label = 'Create Character Props'
+    bl_options = {'REGISTER', 'UNDO'}
+
+    def execute(self, ctx: T.Context):
+        return {'CANCELLED'}
 
 #
 

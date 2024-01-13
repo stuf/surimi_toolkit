@@ -32,6 +32,10 @@ Download this repository as a ZIP file, install in Blender through the "Install"
  - [ ] Create empty vertex groups for the opposite side (`Toe_L` -> `Toe_R`, for shoes w/ mirror modifier)
  - [ ] Rename vertex groups from one side to the other (rename groups from `_L` to `_R`)
 
+### Codebase
+
+ - [ ] Reorganize
+
 ### Other ???
 
  - [ ] Make it easier to make a nodegroup or similar that has characer properties for use in nodes (making drivers by hand is boring)
@@ -40,4 +44,4 @@ Download this repository as a ZIP file, install in Blender through the "Install"
 
  - Floaty64 for giving tons of valuable feedback
  - ChaoticPan for volunteering to test this out
- - @ranjian0 for the tool of generating Python module stubs to get editor integration in VS Code Intellisense
+ - [@ranjian0](https://github.com/ranjian0) for the tool of generating Python module stubs to get editor integration in VS Code Intellisense ([Blender-PyCharm](https://github.com/ranjian0/Blender-PyCharm))
