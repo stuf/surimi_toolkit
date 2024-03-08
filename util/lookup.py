@@ -1,5 +1,12 @@
 # LOOKUPS
 
+WEIGHT_TARGETS = {
+    'Knee_L': 'DEF-shin.L',
+    'Knee_R': 'DEF-shin.R',
+    'Elbow_L': 'DEF-forearm.L',
+    'Elbow_R': 'DEF-forearm.R',
+}
+
 WEIGHT_LOOKUP = {
     'Leg_1_L': 'DEF-thigh.L',
     'Leg_1_R': 'DEF-thigh.R',

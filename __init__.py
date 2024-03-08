@@ -6,8 +6,9 @@ from .util.logging import setup_logger
 
 bl_info = {
     "name": "Surimi Toolkit",
+    "category": "3D View",
     "author": "piparkaq",
-    "version": (0, 2, 0),
+    "version": (0, 4, 1),
     "blender": (3, 6, 0),
     "location": "View3D > Sidebar > Item",
     "description": "Adds a number of useful functions for Splatoon stuff (or in general)",
@@ -23,7 +24,7 @@ logger = logging.getLogger(f'{__name__}_MAIN')
 
 base_modules = [
     'properties',
-    'preferences',
+    'base',
     'operators',
     'ui',
 ]

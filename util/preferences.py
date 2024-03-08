@@ -8,7 +8,8 @@ def get_prefs():
 
 
 def is_experimental():
-    return get_prefs().use_experimental
+    return False
+    # return get_prefs().use_experimental
 
 
 def use_experimental(setting, fallback):

@@ -4,9 +4,9 @@ import bpy.types as T
 import bpy.props as P
 from typing import Tuple
 
-from .util.lookup import WEIGHT_LOOKUP
-from .declarations import Operators as Ot
-from .properties import CharacterProps
+from ..util.lookup import WEIGHT_LOOKUP
+from ..declarations import Operators as Ot
+from ..properties import CharacterProps
 
 logger = logging.getLogger(__name__)
 
@@ -121,6 +121,9 @@ classes = [
 
 
 def register():
+    ot_names = [ot.bl_idname for ot in classes]
+    logger.info('register operators: %s', ot_names)
+
     for cls in classes:
         bpy.utils.register_class(cls)
 

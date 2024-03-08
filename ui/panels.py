@@ -2,19 +2,23 @@ import bpy
 import bpy.types as T
 import bpy.props as P
 from bpy import context as C
+import logging
 
 from ..declarations import Panels as Pt, Operators as Ot
 from ..util.helpers import is_in_pose_position
 from ..util.preferences import is_experimental
-from ..operators import (OBJECT_OT_surimi_rename_weights,
-                         OBJECT_OT_surimi_toggle_pose_position,
-                         )
+
+from ..operators.view3d import (OBJECT_OT_surimi_rename_weights,
+                                OBJECT_OT_surimi_toggle_pose_position,
+                                )
+
+logger = logging.getLogger(__name__)
 
 
 class SURIMI_PT_panel_base(T.Panel):
     bl_space_type = 'VIEW_3D'
     bl_region_type = 'UI'
-    bl_category = 'Item'
+    bl_category = 'Surimi'
 
 
 class SURIMI_PT_panel_main(SURIMI_PT_panel_base):
@@ -25,10 +29,34 @@ class SURIMI_PT_panel_main(SURIMI_PT_panel_base):
         pass
 
 
+class SURIMI_PT_panel_render_octane(SURIMI_PT_panel_base):
+    bl_idname = Pt.TOOLS_RENDER_OCTANE
+    bl_label = 'Render (Octane)'
+    bl_parent_id = SURIMI_PT_panel_main.bl_idname
+
+    @classmethod
+    def poll(cls, ctx: T.Context):
+        return ctx.scene.render.engine == 'octane'
+
+    def draw(self, ctx: T.Context):
+        layout = self.layout
+        scene = ctx.scene
+
+        layout.use_property_decorate = True
+        layout.use_property_split = True
+
+        row = layout.column()
+        row.prop(scene.oct_view_cam.imager, 'up_sample_mode')
+
+
 class SURIMI_PT_panel_render(SURIMI_PT_panel_base):
     bl_idname = Pt.TOOLS_RENDER
     bl_label = 'Render'
     bl_parent_id = SURIMI_PT_panel_main.bl_idname
+
+    @classmethod
+    def poll(cls, ctx: T.Context):
+        return ctx.scene.render.engine == 'cycles'
 
     def draw(self, ctx: T.Context):
         layout = self.layout
@@ -37,9 +65,13 @@ class SURIMI_PT_panel_render(SURIMI_PT_panel_base):
         layout.use_property_split = True
         layout.use_property_decorate = True
 
-        row = layout.column()
-        row.prop(scene.cycles, 'preview_samples', text='Preview')
-        row.prop(scene.cycles, 'samples', text='Render')
+        if scene.render.engine == 'octane':
+            pass
+
+        if scene.render.engine == 'cycles':
+            row = layout.column()
+            row.prop(scene.cycles, 'preview_samples', text='Preview')
+            row.prop(scene.cycles, 'samples', text='Render')
 
         layout.separator()
 
@@ -53,6 +85,8 @@ class SURIMI_PT_panel_viewport(SURIMI_PT_panel_base):
     bl_parent_id = SURIMI_PT_panel_main.bl_idname
 
     def draw(self, ctx: T.Context):
+        logger.info('Render Settings', ctx.scene.render.engine)
+
         layout = self.layout
         scene = ctx.scene
 
@@ -168,6 +202,7 @@ classes = [
     SURIMI_PT_panel_main,
     SURIMI_PT_panel_viewport,
     SURIMI_PT_panel_render,
+    SURIMI_PT_panel_render_octane,
     SURIMI_PT_panel_object,
     SURIMI_PT_panel_armature,
     SURIMI_PT_panel_experimental,

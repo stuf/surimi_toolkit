@@ -6,20 +6,20 @@ from ..util.register import module_register_factory
 
 logger = logging.getLogger(__name__)
 
-ui_modules = [
-    'panels',
+MODULES = [
+    'view3d',
     'node_editor',
 ]
 
-reg, unreg = module_register_factory(__name__, ui_modules)
+reg, unreg = module_register_factory(__name__, MODULES)
 
 
 def register():
-    logger.info('Register UI')
-    logger.info(' - modules: %s', ui_modules)
+    logger.info('Register')
+    logger.info(' - modules: %s', MODULES)
     reg()
 
 
 def unregister():
-    logger.info('Unregister UI')
+    logger.info('Unregister')
     unreg()

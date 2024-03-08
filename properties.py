@@ -2,6 +2,10 @@ import bpy
 import bpy.types as T
 from bpy import props as P
 
+import logging
+
+logger = logging.getLogger(__name__)
+
 
 class CharacterProps(T.PropertyGroup):
     character_color_1: P.FloatVectorProperty(
@@ -66,25 +70,54 @@ class CharacterProps(T.PropertyGroup):
 #
 
 
-classes = [
+class MatImporterProps(T.PropertyGroup):
+    search_path: P.StringProperty(
+        name='Search path',
+        default='W:\\Blender\\work\\__RESOURCES'
+    )
+
+    recursive: P.BoolProperty(
+        name='Recursive',
+        default=True,
+    )
+
+    use_material_name: P.BoolProperty(
+        name='Use material name for prefix',
+        default=True,
+    )
+
+
+#
+
+CLASSES = [
     CharacterProps,
+    MatImporterProps,
 ]
 
-parent_type = T.Object
+PROPS = [
+    ('surimi_props', T.Object, P.PointerProperty(type=CharacterProps)),
+    ('surimi_mat_importer', T.Material, P.PointerProperty(type=MatImporterProps)),
+]
 
 
 def register():
-    for cls in classes:
+    ot_names = [ot.__name__ for ot in CLASSES]
+    logger.info('register operators: %s', ot_names)
+
+    for cls in CLASSES:
         bpy.utils.register_class(cls)
 
-    parent_type.surimi_props = P.PointerProperty(type=CharacterProps)
+    for k, Type, prop in PROPS:
+        # Type[k] = prop
+        setattr(Type, k, prop)
 
 
 def unregister():
-    for cls in reversed(classes):
+    for cls in reversed(CLASSES):
         bpy.utils.unregister_class(cls)
 
-    del parent_type.surimi_props
+    for k, Type, prop in reversed(PROPS):
+        delattr(Type, k)
 
 
 if __name__ == '__main__':
