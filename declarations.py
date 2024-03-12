@@ -10,6 +10,9 @@ class Operators(str, Enum):
     CHOOSE_IMPORT_MATERIAL_DIR = 'surimi.choose_import_material_dir'
     RENAME_MATERIAL_TEXTURES = 'surimi.rename_material_textures'
 
+    # Experimental
+    ADD_USUAL_MODIFIERS = 'surimi.add_usual_modifiers'
+
 
 class Panels(str, Enum):
     TOOL_BASE = 'VIEW3D_PT_surimi_base'

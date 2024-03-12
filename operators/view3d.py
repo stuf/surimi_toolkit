@@ -113,10 +113,57 @@ class OBJECT_OT_surimi_create_character_props(T.Operator):
 #
 
 
+class OBJECT_OT_surimi_add_usual_modifiers(T.Operator):
+    """Adds a bunch of the usual suspects on the selected object if it's a mesh.
+
+    Does the following:
+    - Turns off mesh auto smoothing
+    - Adds a bevel modifier, with predefined segments (2) and amount (0.01m),
+      limit method 'weight'
+    - Adds a subdivision modifier
+
+    TODO: Maybe put modifiers in the correct order in the modifier stack
+    TODO: Allow configuration of settings from preferences
+    """
+    bl_idname = Ot.ADD_USUAL_MODIFIERS
+    bl_label = 'Add Usual Modifiers'
+    bl_options = {'REGISTER', 'UNDO'}
+
+    def execute(self, ctx: T.Context):
+        obj = ctx.active_object
+
+        if obj.type != 'MESH':
+            self.report(
+                {'INFO'}, f'Selected object is not a mesh, doing nothing.')
+
+            return {'CANCELLED'}
+
+        data: T.Mesh = obj.data
+        data.use_auto_smooth = False
+
+        bevel: T.BevelModifier = obj.modifiers.new(name='Bevel', type='BEVEL')
+        bevel.show_in_editmode = False
+        bevel.limit_method = 'WEIGHT'
+        bevel.segments = 2
+        bevel.width = 0.01
+        bevel.show_expanded = False
+
+        subdiv: T.SubsurfModifier = obj.modifiers.new(
+            name='Subdiv', type='SUBSURF')
+        subdiv.show_in_editmode = False
+        subdiv.show_expanded = False
+
+        return {'FINISHED'}
+
+
+#
+
+
 classes = [
     OBJECT_OT_surimi_rename_weights,
     OBJECT_OT_surimi_toggle_pose_position,
     OBJECT_OT_surimi_create_character_props,
+    OBJECT_OT_surimi_add_usual_modifiers,
 ]
 
 
