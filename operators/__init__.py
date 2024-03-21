@@ -8,6 +8,7 @@ logger = logging.getLogger(__name__)
 
 MODULES = [
     'view3d',
+    'character',
     'node_editor',
 ]
 
@@ -15,11 +16,12 @@ reg, unreg = module_register_factory(__name__, MODULES)
 
 
 def register():
-    logger.info('Register')
-    logger.info(' - modules: %s', MODULES)
+    logger.info('register operators; %s', ', '.join(MODULES))
+
     reg()
 
 
 def unregister():
-    logger.info('Unregister')
+    logger.info('unregister operators; %s', ', '.join(MODULES))
+
     unreg()

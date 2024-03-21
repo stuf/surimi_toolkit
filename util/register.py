@@ -4,6 +4,10 @@ import importlib
 from typing import List
 from traceback import print_exc
 
+import logging
+
+logger = logging.getLogger(__name__)
+
 
 def cleanse_modules(parent_module_name):
     for module_name in list(sys.modules.keys()):

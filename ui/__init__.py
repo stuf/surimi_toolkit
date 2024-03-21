@@ -9,17 +9,19 @@ logger = logging.getLogger(__name__)
 ui_modules = [
     'panels',
     'node_editor',
+    'collection_properties',
 ]
 
 reg, unreg = module_register_factory(__name__, ui_modules)
 
 
 def register():
-    logger.info('Register UI')
-    logger.info(' - modules: %s', ui_modules)
+    logger.info('register UI')
+    for m in ui_modules:
+        logger.info(' - module: %s', m)
+
     reg()
 
 
 def unregister():
-    logger.info('Unregister UI')
     unreg()

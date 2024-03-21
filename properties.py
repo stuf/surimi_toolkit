@@ -6,7 +6,10 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+#
 
+
+#
 class CharacterProps(T.PropertyGroup):
     character_color_1: P.FloatVectorProperty(
         name='Primary',
@@ -89,20 +92,29 @@ class MatImporterProps(T.PropertyGroup):
 
 #
 
+class SurimiRootCollectionProperties(T.PropertyGroup):
+    asd: T.EnumProperty
+
+#
+
+
 CLASSES = [
     CharacterProps,
     MatImporterProps,
+    SurimiRootCollectionProperties,
 ]
 
 PROPS = [
     ('surimi_props', T.Object, P.PointerProperty(type=CharacterProps)),
     ('surimi_mat_importer', T.Material, P.PointerProperty(type=MatImporterProps)),
+    ('surimi_root_props', T.Object, P.PointerProperty(
+        type=SurimiRootCollectionProperties)),
 ]
 
 
 def register():
     ot_names = [ot.__name__ for ot in CLASSES]
-    logger.info('register operators: %s', ot_names)
+    logger.info('register custom properties: %s', ot_names)
 
     for cls in CLASSES:
         bpy.utils.register_class(cls)

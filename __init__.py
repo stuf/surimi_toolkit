@@ -1,14 +1,8 @@
-import logging
-import bpy.types as T
-
-from .util.register import module_register_factory, cleanse_modules
-from .util.logging import setup_logger
-
 bl_info = {
     "name": "Surimi Toolkit",
     "category": "3D View",
     "author": "piparkaq",
-    "version": (0, 4, 1),
+    "version": (0, 5, 0),
     "blender": (3, 6, 0),
     "location": "View3D > Sidebar > Item",
     "description": "Adds a number of useful functions for Splatoon stuff (or in general)",
@@ -17,14 +11,21 @@ bl_info = {
     "tracker_url": "https://github.com/stuf/surimi_toolkit/issues"
 }
 
+import logging
+import bpy.types as T
+
+from .util.register import module_register_factory, cleanse_modules
+from .util.logging import setup_logger
+from .util.preferences import get_prefs
+
 logger = logging.getLogger(f'{__name__}_MAIN')
 
 # ====
 # INIT
 
 base_modules = [
-    'properties',
     'base',
+    'properties',
     'operators',
     'ui',
 ]
@@ -37,7 +38,7 @@ reg, unreg = module_register_factory(__name__, base_modules)
 def register():
     setup_logger(logger)
 
-    logger.info('Registering addon; %s', bl_info)
+    logger.info('register addon')
 
     reg()
 

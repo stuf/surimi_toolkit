@@ -8,7 +8,11 @@ from ..operators.node_editor import (
     NA_OT_srm_import_material,
     NA_OT_srm_choose_import_material_dir,
     NA_OT_srm_rename_material_textures,
+    NA_OT_srm_add_imagetex,
+    NA_OT_srm_add_node,
 )
+from ..util.helpers import render_engine_is_cycles, is_octane_render_present
+
 
 import logging
 
@@ -20,7 +24,7 @@ logger = logging.getLogger(__name__)
 class NA_PT_srm_node_base(T.Panel):
     bl_space_type = 'NODE_EDITOR'
     bl_region_type = 'UI'
-    bl_category = 'Surimi'
+    bl_category = 'Node'
 
 
 class NA_PT_srm_node_mat_importer(NA_PT_srm_node_base):
@@ -63,15 +67,74 @@ class NA_PT_srm_node_mat_importer(NA_PT_srm_node_base):
         # row.operator(NA_OT_srm_import_material.bl_idname)
 
 
-class NA_PT_srm_helpers(NA_PT_srm_node_base):
-    bl_idname = Pt.NA_HELPERS
-    bl_label = 'Rename Images'
+class NA_PT_srm_quick_node(NA_PT_srm_node_base):
+    bl_idname = Pt.NA_QUICK_NODE
+    bl_label = 'Node Shortcuts'
 
     def draw(self, ctx: T.Context):
         layout = self.layout
 
         row = layout.column()
-        row.operator(NA_OT_srm_rename_material_textures.bl_idname)
+
+
+buttons = {
+    'Textures': [
+        ('ImageTex', 'ShaderNodeOctImageTex', None),
+        ('RGB', 'OctaneRGBImage', None),
+        ('Alpha', 'OctaneAlphaImage', None),
+        ('Gray', 'OctaneGreyscaleImage', None),
+    ],
+    'Projection': [
+        ('Spherical', 'OctaneSpherical', 100.0),
+        ('Mesh UV', 'OctaneMeshUVProjection', 100.0),
+    ],
+    'Transform': [
+        ('2D', 'Octane2DTransformation', None),
+        ('3D', 'Octane3DTransformation', None),
+        ('Scale', 'OctaneScale', None),
+        ('Rotation', 'OctaneRotation', None),
+
+    ],
+    'Operations': [
+        ('Mult', 'OctaneMultiplyTexture', 100.0),
+        ('Mix', 'OctaneMixTexture', 100.0),
+        ('Inv', 'OctaneInvertTexture', 100.0),
+    ],
+    'Adjust': [
+        ('Color Correction', 'OctaneColorCorrection', None),
+    ],
+    'Emission': [
+        ('Black Body', 'OctaneBlackBodyEmission', None),
+        ('Texture', 'OctaneTextureEmission', None),
+    ]
+}
+
+
+class NA_PT_srm_helpers(NA_PT_srm_node_base):
+    bl_idname = Pt.NA_HELPERS
+    bl_label = 'Helpers (Octane)'
+
+    @classmethod
+    def poll(cls, ctx: T.Context):
+        return is_octane_render_present()
+
+    def draw(self, ctx: T.Context):
+        layout = self.layout
+
+        col = layout.column()
+        col.operator(NA_OT_srm_rename_material_textures.bl_idname)
+
+        for label, rows in buttons.items():
+            col = layout.column()
+            col.label(text=label)
+
+            r = col.row()
+            for row_label, node_type, node_width in rows:
+                ot = r.operator(NA_OT_srm_add_node.bl_idname, text=row_label)
+                ot.node_name = node_type
+
+                if node_width:
+                    ot.node_width = node_width
 
 
 classes = [
@@ -81,6 +144,7 @@ classes = [
 
 
 def register():
+    logger.info('registering UI')
     for cls in classes:
         bpy.utils.register_class(cls)
 

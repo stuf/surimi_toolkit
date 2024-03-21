@@ -57,18 +57,57 @@ class NA_OT_srm_rename_material_textures(T.Operator):
 #
 
 
+class NA_OT_srm_add_imagetex(T.Operator):
+    bl_idname = Ot.ADD_IMAGETEX
+    bl_label = 'Add ImageTex Node'
+    bl_description = 'Add an OctImageTex node on the currently active material'
+    bl_options = {'REGISTER', 'UNDO'}
+
+    def execute(self, ctx: T.Context):
+        obj = ctx.active_object
+        mat = obj.active_material
+        nodes = mat.node_tree.nodes
+
+        nodes.new('ShaderNodeOctImageTex')
+
+        return {'FINISHED'}
+
+
+class NA_OT_srm_add_node(T.Operator):
+    bl_idname = Ot.ADD_NODE
+    bl_label = 'Add Node'
+    bl_description = ''
+    bl_options = {'REGISTER', 'UNDO'}
+
+    node_name: P.StringProperty()
+    node_width: P.FloatProperty()
+
+    def execute(self, ctx: T.Context):
+        obj = ctx.active_object
+        mat = obj.active_material
+        nodes = mat.node_tree.nodes
+
+        node = nodes.new(self.node_name)
+        if self.node_width:
+            node.width = self.node_width
+
+        return {'FINISHED'}
+
+
 classes = [
     NA_OT_srm_import_material,
     NA_OT_srm_choose_import_material_dir,
     NA_OT_srm_rename_material_textures,
+    NA_OT_srm_add_imagetex,
+    NA_OT_srm_add_node,
 ]
 
 
 def register():
-    ot_names = [ot.bl_idname for ot in classes]
-    logger.info('register operators: %s', ot_names)
+    logger.info('register operators')
 
     for cls in classes:
+        logger.info(' - operator: %s', cls.__name__)
         bpy.utils.register_class(cls)
 
 

@@ -1,20 +1,27 @@
-import bpy
 import logging
+import bpy
+import bpy.types as T
 
 from ..util.register import module_register_factory
 
 logger = logging.getLogger(__name__)
 
-base_modules = [
-    'preferences',
+#
+
+
+MODULES = [
+    'collection',
 ]
 
-reg, unreg = module_register_factory(__name__, base_modules)
+
+reg, unreg = module_register_factory(__name__, MODULES)
+
+#
 
 
 def register():
-    logger.info('registering base modules')
-    for m in base_modules:
+    logger.info('registering properties')
+    for m in MODULES:
         logger.info(' - module: %s', m)
 
     reg()
