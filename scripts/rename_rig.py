@@ -30,34 +30,38 @@
 from bpy import data as D, types as T
 import re
 
-RIG_NAME = 'ch01'
-NEW_NAME = 'player01'
+RIG_NAME = 'player00'
+NEW_NAME = 'cappy'
 
 
 def main():
-    types = {'objects', 'meshes', 'armatures', 'collections'}
+    # What kind of things do we wanna rename?
+    # Should be a property found in `bpy.data`
+    types = {'objects', 'meshes', 'node_groups',
+             'texts', 'materials', 'armatures', 'collections'}
+
     found: list[T.ID] = []
 
-    # re_pat = r'([A-Z]{2,4})\-(' + RIG_NAME + ')'
+    # Regex pattern to use to search things we want to rename
+    # Basically, anything that is of the format `ABCD-something`
     re_pat = f'([A-Z]{{2,4}})-({RIG_NAME})'
 
-    print(f'{re_pat=}')
-
-    # look up anything we would want to rename
+    # Look up anything we would want to rename
     for t in types:
         items = getattr(D, t)
         found += [o for o in items if re.search(re_pat, o.name)]
 
-    # now that everything is collected, rename
+    # Now that everything is collected, rename all matches we found
     for it in found:
-        print(f'Found {it=} {it.name=}')
+        print(f'Found `{it.name=}`')
         repl_pat = f'\\1-{NEW_NAME}'
-        print(f'  - {repl_pat=}')
         new_name = re.sub(re_pat, repl_pat, it.name)
-        print(f'  > {new_name=}')
+        print(f'  - renaming to `{new_name}`')
 
         it.name = new_name
 
+
+#
 
 if __name__ == '__main__':
     main()
