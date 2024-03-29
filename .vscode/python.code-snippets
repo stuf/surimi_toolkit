@@ -1,0 +1,90 @@
+{
+  "Def Main": {
+    "prefix": ["defmain"],
+    "body": [
+      "def main():",
+      "    ${0:pass}",
+      "",
+      "if __name__ == '__main__':",
+      "    main()",
+      ""
+    ]
+  },
+  "Registration": {
+    "prefix": "regonly",
+    "body": [
+      "def register():",
+      "    for ${2:cls} in ${1:CLASSES}:",
+      "        bpy.utils.register_class(${2:cls})",
+      "",
+      "def unregister():",
+      "    for ${2:cls} in reversed(${1:CLASSES}):",
+      "        bpy.utils.unregister_class(${2:cls})",
+      "$0"
+    ],
+    "description": "Blender top-level module registration and unregistration"
+  },
+
+  "Blender Operator": {
+    "prefix": ["bpy-ot"],
+    "body": [
+      "class ${1:PREFIX}_${2:TYPE}_${3:name}(T.Operator):",
+      "    bl_idname = '$4'",
+      "    bl_label = '$5'",
+      "    bl_description = '$6'",
+      "    bl_options = {'REGISTER', 'UNDO'}",
+      "",
+      "    def execute(self, ctx: T.Context):",
+      "        $0",
+      "        return {'CANCELLED'}",
+      ""
+    ]
+  },
+
+  "Registration (scaffold)": {
+    "prefix": "reg",
+    "body": [
+      "CLASSES = []",
+      "",
+      "def register():",
+      "    for cls in CLASSES:",
+      "        bpy.utils.register_class(cls)",
+      "",
+      "def unregister():",
+      "    for cls in reversed(CLASSES):",
+      "        bpy.utils.unregister_class(cls)",
+      ""
+    ],
+    "description": "SCAFFOLD Blender top-level module registration and unregistration"
+  },
+
+  "Blender Package Initfile": {
+    "prefix": ["init-bpy"],
+    "isFileTemplate": true,
+    "body": [
+      "import bpy",
+      "import bpy.types as T, bpy.props as P",
+      "from bpy import context as C, data as D",
+      "",
+      "import logging",
+      "",
+      "logger = logging.getLogger(__name__)",
+      "",
+      "#",
+      "",
+      "$0"
+    ]
+  },
+
+  "Blender Imports": {
+    "prefix": "bpy",
+    "body": [
+      "import bpy",
+      "import bpy.types as T",
+      "import bpy.props as P",
+      "from bpy import context as C, data as D",
+      ""
+    ],
+    "description": "Basic imports"
+  }
+}
