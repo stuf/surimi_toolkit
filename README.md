@@ -22,6 +22,16 @@ Download this repository as a ZIP file, install in Blender through the "Install"
 
 ## Things that need doing
 
+### Operators
+
+Implement operators out of these scripts:
+
+- [ ] `scripts/rename_rig.py`
+- [ ] `scripts/make_param_nodegroup.py`
+- [ ] `scripts/make_ref_environment.py`
+- [ ] `scripts/set_render_output.py`
+- [ ] `scripts/con_rename_images.py`
+
 ### Octane Render
 
 - [ ] Operator: Convert `OctaneRGBImage` node(s) to legacy `ShaderNodeOctImageTex`
