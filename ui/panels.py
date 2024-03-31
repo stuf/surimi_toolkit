@@ -5,14 +5,16 @@ from bpy import context as C
 import logging
 
 from ..declarations import Panels as Pt, Operators as Ot
-from ..util.helpers import is_in_pose_position, render_engine_is_cycles, is_octane_render_present
-from ..util.preferences import is_experimental, get_prefs, get_tab_category
+from ..util.helpers import is_in_pose_position, render_engine_is_cycles, render_engine_is_octane
+from ..util.preferences import is_experimental
 
 from ..operators.view3d import (OBJECT_OT_surimi_rename_weights,
                                 OBJECT_OT_surimi_toggle_pose_position,
                                 )
 
 logger = logging.getLogger(__name__)
+
+#
 
 
 class SURIMI_PT_panel_base(T.Panel):
@@ -39,7 +41,7 @@ class SURIMI_PT_panel_render_octane(SURIMI_PT_panel_base):
 
     @classmethod
     def poll(cls, ctx: T.Context):
-        return is_octane_render_present()
+        return render_engine_is_octane(ctx)
 
     def draw(self, ctx: T.Context):
         layout = self.layout
@@ -59,7 +61,7 @@ class SURIMI_PT_panel_render(SURIMI_PT_panel_base):
 
     @classmethod
     def poll(cls, ctx: T.Context):
-        return render_engine_is_cycles()
+        return render_engine_is_cycles(ctx)
 
     def draw(self, ctx: T.Context):
         layout = self.layout
@@ -203,7 +205,7 @@ classes = [
     SURIMI_PT_panel_render_octane,
     SURIMI_PT_panel_object,
     SURIMI_PT_panel_armature,
-    SURIMI_PT_panel_experimental,
+    # SURIMI_PT_panel_experimental,
 ]
 
 

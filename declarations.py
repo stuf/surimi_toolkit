@@ -12,6 +12,7 @@ class Operators(str, Enum):
     RENAME_MATERIAL_TEXTURES = 'surimi.rename_material_textures'
     ADD_IMAGETEX = 'surimi.add_imagetex'
     ADD_NODE = 'surimi.add_node'
+    NORMALIZE_SELECTED_FILENAMES = 'surimi.normalize_selected_filenames'
 
     # Experimental
     CHARACTER_SETUP_RENAME = 'surimi.character_setup_rename'
@@ -29,8 +30,9 @@ class Panels(str, Enum):
     TOOLS_EXPERIMENTAL = 'SURIMI_PT_panel_experimental'
 
     NA_HELPERS = 'NA_PT_srm_helpers'
+    NA_NORMALIZE_SELECTED_FILENAMES = 'NA_PT_srm_normalize_selected_filenames'
     NA_MAT_IMPORTER = 'NA_PT_srm_node_mat_importer'
     NA_RENAME_IMAGES = 'NA_PT_srm_rename_images'
-    NA_QUICK_NODE = 'NA_PT_srm_quick_node'
+    NA_QUICK_NODES = 'NA_PT_srm_quick_nodes'
 
     PREFS_BASE_MODIFIER_SETTINGS = 'SURIMI_PT_prefs_base_modifier_settings'

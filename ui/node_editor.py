@@ -11,7 +11,10 @@ from ..operators.node_editor import (
     NA_OT_srm_add_imagetex,
     NA_OT_srm_add_node,
 )
-from ..util.helpers import render_engine_is_cycles, is_octane_render_present
+from ..util.helpers import (
+    render_engine_is_cycles,
+    render_engine_is_octane,
+)
 
 
 import logging
@@ -67,16 +70,6 @@ class NA_PT_srm_node_mat_importer(NA_PT_srm_node_base):
         # row.operator(NA_OT_srm_import_material.bl_idname)
 
 
-class NA_PT_srm_quick_node(NA_PT_srm_node_base):
-    bl_idname = Pt.NA_QUICK_NODE
-    bl_label = 'Node Shortcuts'
-
-    def draw(self, ctx: T.Context):
-        layout = self.layout
-
-        row = layout.column()
-
-
 buttons = {
     'Textures': [
         ('ImageTex', 'ShaderNodeOctImageTex', None),
@@ -112,11 +105,20 @@ buttons = {
 
 class NA_PT_srm_helpers(NA_PT_srm_node_base):
     bl_idname = Pt.NA_HELPERS
+    bl_label = 'Helpers'
+
+    def draw(self, ctx: T.Context):
+        pass
+
+
+class NA_PT_srm_quick_nodes(NA_PT_srm_node_base):
+    bl_idname = Pt.NA_QUICK_NODES
     bl_label = 'Helpers (Octane)'
+    bl_parent_id = Pt.NA_HELPERS
 
     @classmethod
     def poll(cls, ctx: T.Context):
-        return is_octane_render_present()
+        return render_engine_is_octane(ctx)
 
     def draw(self, ctx: T.Context):
         layout = self.layout
@@ -137,9 +139,25 @@ class NA_PT_srm_helpers(NA_PT_srm_node_base):
                     ot.node_width = node_width
 
 
+class NA_PT_srm_node_normalize_selected_filenames(NA_PT_srm_node_base):
+    bl_idname = Pt.NA_NORMALIZE_SELECTED_FILENAMES
+    bl_label = 'Normalize'
+    bl_parent_id = Pt.NA_HELPERS
+
+    def draw(self, ctx: T.Context):
+        layout = self.layout
+
+        col = layout.column()
+        col.label(text='Column 123')
+
+
+#
+
 classes = [
     NA_PT_srm_node_mat_importer,
     NA_PT_srm_helpers,
+    NA_PT_srm_quick_nodes,
+    NA_PT_srm_node_normalize_selected_filenames,
 ]
 
 
