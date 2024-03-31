@@ -10,7 +10,7 @@ from glob import glob
 
 import re
 import os.path
-from pprint import pprint
+from pprint import pprint, pformat
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -22,9 +22,9 @@ match_files = f'**/*.png'
 #
 
 
-def find_images(path):
+def find_images(path, glob_pat=None):
     paths = [Path(path, f)
-             for f in glob(match_files,
+             for f in glob(glob_pat or match_files,
                            root_dir=path)
              # I'm sorry but these have to go
              if not 'BakeDummy00' in f]
@@ -32,9 +32,16 @@ def find_images(path):
     return paths
 
 
+def find_mat_images(path, mat_name):
+    paths = find_images(path, glob_pat=f'**/{mat_name}*.png')
+
+    return paths
+
+
 def group_images(imgs: list[Path]):
     lookup = {}
     found_types = set()
+    found_stems = set()
 
     for img in imgs:
         # haha regexes
@@ -47,6 +54,7 @@ def group_images(imgs: list[Path]):
 
         stem, tex_type, ext = match.groups()
 
+        found_stems.add(stem)
         found_types.add(tex_type)
 
         if not stem in lookup:
@@ -57,14 +65,18 @@ def group_images(imgs: list[Path]):
     return lookup, found_types
 
 
-def open_image(path):
+def open_image(path: Path):
     # Because the Open Image operator doesn't return the name of the newly opened image,
     # we will be wasteful and just take note of images present before and after the operation,
     # by taking the difference of the two sets.
-    images_before = set([img.name for img in bpy.data.images.keys()])
+
+    images_before = set([img for img in bpy.data.images.keys()])
+    print(f'{images_before=}')
     bpy.ops.image.open(filepath=str(path))
-    images_after = set([img.name for img in bpy.data.images.keys()])
+    images_after = set([img for img in bpy.data.images.keys()])
+    print(f'{images_after=}')
     image_diff = images_before ^ images_after
+    print(f'{image_diff=}')
 
     if not image_diff:
         print(f'Something silly is happening; no images opened')
@@ -77,6 +89,9 @@ def open_image(path):
 
 
 def reassign_duplicates(objects: T.Object):
+    """Eliminate duplicate materials, where materials named `Material`,
+       `Material_ab` and `Material.###` are considered the same.
+    """
     print(f'Reassigning duplicates for {len(objects)} object(s).')
 
     lookup = {}
@@ -121,14 +136,30 @@ def reassign_duplicates(objects: T.Object):
 
 #
 
+#
+
 
 def main():
+    print('-----')
+    # res = find_images(inpath)
+    # res2, textypes = group_images(res)
+
+    # pprint(res2)
+
     res = find_images(inpath)
     res2, textypes = group_images(res)
+    # pprint(res2)
+    # print(f'Found {len(textypes)} texture map types; {sorted(textypes)}')
 
-    pprint(res2)
+    # take one group for starters
+    grp = list(res2.items())
+    for k, v in grp:
+        print()
+        print(f'Material: `{k}`')
+        for tex_type, tex_path in v.items():
+            print(f'   - {tex_type=}\t{tex_path=}')
 
-    print(f'Found {len(textypes)} texture map types; {sorted(textypes)}')
+    # reassign_duplicates(D.objects)
 
 
 if __name__ == '__main__':
