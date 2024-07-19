@@ -1,3 +1,10 @@
+"""Rename select image texture nodes files and labels to be descriptive
+   of their content, to avoid having lots of duplicate `M_Body` images
+   in a .blend file.
+
+   TODO: Add support for Eevee/Cycles image texture nodes
+"""
+
 import bpy
 import bpy.types as T
 import bpy.props as P
@@ -7,12 +14,21 @@ import re
 
 # TODO: Allow support to match `alb` and `Alb`
 gamma = [
-    ({'alb'}, 2.2),
+    ({'Alb'}, 2.2),
 ]
 
 
+class NA_OT_surimi_normalize_image_nodes(T.Operator):
+    bl_idname = 'surimi.normalize_image_nodes'
+    bl_options = {'REGISTER', 'UNDO'}
+
+    def execute(self, ctx: T.Context):
+        return {'CANCELLED'}
+
+
+#
+
 def main():
-    print('-----')
     # Only consider these kinds of RNA identifiers (in this context "node types")
     node_rna_types = {'ShaderNodeOctImageTex', 'OctaneRGBImage'}
     name_pat = r'(\w+)_(\w{2,4})(\.\w+)?$'
@@ -22,7 +38,6 @@ def main():
     mat_name = mat.name
     nodes = mat.node_tree.nodes
 
-    # Get selected nodes and filter out non-images
     selected: list[T.Node] = \
         [n
          for n in nodes
@@ -50,7 +65,7 @@ def main():
             print(f' - {tail=}')
             continue
 
-        tail = tail.group(1).lower()
+        tail = tail.group(1)
         n.image.name = '-'.join([mat_name, tail])
         n.label = tail
         n.name = f'NODE-{n.image.name}'
@@ -58,7 +73,10 @@ def main():
         # This only works if you have Octane
         # Essentially should change the colorspace if in Cycles/Eevee
         for types, gamma_value in gamma:
-            socket = n.inputs['Legacy gamma']
+            try:
+                socket = n.inputs['Legacy gamma']
+            except KeyError:
+                socket = n.inputs['Gamma']
             if tail in types or tail.capitalize() in types:
                 socket.default_value = gamma_value
             else:
