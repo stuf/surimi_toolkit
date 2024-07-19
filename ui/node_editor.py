@@ -27,7 +27,7 @@ logger = logging.getLogger(__name__)
 class NA_PT_srm_node_base(T.Panel):
     bl_space_type = 'NODE_EDITOR'
     bl_region_type = 'UI'
-    bl_category = 'Node'
+    bl_category = 'Surimi'
 
 
 class NA_PT_srm_node_mat_importer(NA_PT_srm_node_base):
