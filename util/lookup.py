@@ -20,12 +20,18 @@ WEIGHT_LOOKUP = {
     'Ankle_Assist_R': 'DEF-shin.R.001',
     'Toe_L': 'DEF-toe.L',
     'Toe_R': 'DEF-toe.R',
+
+    # Spine
     'Waist': 'DEF-spine',
     'Spine_1': 'DEF-spine.001',
     'Spine_2': 'DEF-spine.002',
     'Spine_3': 'DEF-spine.003',
     'Neck': 'DEF-spine.004',
+
     'Head': 'DEF-spine.006',
+    'Head_Root': 'DEF-spine.006',
+
+    # Shoulders & Arms
     'Clavicle_L': 'DEF-shoulder.L',
     'Clavicle_R': 'DEF-shoulder.R',
     'Arm_Assist_L': 'DEF-upper_arm.L',
@@ -68,4 +74,58 @@ WEIGHT_LOOKUP = {
     'Finger_E_1_R': 'DEF-f_pinky.01.R',
     'Finger_E_2_R': 'DEF-f_pinky.02.R',
     'Finger_E_3_R': 'DEF-f_pinky.03.R',
+
+    'Knee_L': 'DEF-knee.L',
+    'Elbow_L': 'DEF-elbow.L',
+    'Knee_R': 'DEF-knee.R',
+    'Elbow_R': 'DEF-elbow.R',
+
+    # Special NPCs
+    'Head_Cheek_L': 'DEF-head_cheek.L',
+    'Head_Cheek_R': 'DEF-head_cheek.R',
+
+    'Ear_L': 'DEF-ear.L',
+    'Ear_R': 'DEF-ear.R',
+
+    'Head_Intercostal': 'DEF-head_intercostal',
+    'Eyebrow_L': 'DEF-head_eyebrow.L',
+    'Eyebrow_R': 'DEF-head_eyebrow.R',
+
+    'Head_Eyeblow_L': 'DEF-head_eyebrow.L',
+    'Head_EyeblowInside_L': 'DEF-head_eyebrow_inside.L',
+    'Head_EyeblowOutside_L': 'DEF-head_eyebrow_outside.L',
+    'Head_Eyeblow_R': 'DEF-head_eyebrow.R',
+    'Head_EyeblowInside_R': 'DEF-head_eyebrow_inside.R',
+    'Head_EyeblowOutside_R': 'DEF-head_eyebrow_outside.R',
+
+    'Mouth_Joe': 'DEF-mouth_jaw',
+    'Mouth_Corner_L': 'DEF-mouth_corner.L',
+    'Mouth_Corner_R': 'DEF-mouth_corner.R',
+
+    # Callie's hair
+    'Nape_L': 'DEF-nape.L',
+    'Nape_R': 'DEF-nape.R',
+    'Z_Nape_L': 'DEF-z_nape.L',
+    'Z_Nape_R': 'DEF-z_nape.R',
+    'Bangs_1': 'DEF-bangs.001',
+    'Bangs_2': 'DEF-bangs.002',
+    'Bangs_3': 'DEF-bangs.003',
+
+    'z_hair_L': 'DEF-z_hair.L',
+    'hair1_L': 'DEF-hair.01.L',
+    'hair2_L': 'DEF-hair.02.L',
+    'hair3_L': 'DEF-hair.03.L',
+    'hair4_L': 'DEF-hair.04.L',
+    'hair5_L': 'DEF-hair.05.L',
+    'upper_hair_L': 'DEF-upper_hair.L',
+    'z_upper_hair_L': 'DEF-z_upper_hair.L',
+
+    'z_hair_R': 'DEF-z_hair.R',
+    'hair1_R': 'DEF-hair.01.R',
+    'hair2_R': 'DEF-hair.02.R',
+    'hair3_R': 'DEF-hair.03.R',
+    'hair4_R': 'DEF-hair.04.R',
+    'hair5_R': 'DEF-hair.05.R',
+    'upper_hair_R': 'DEF-upper_hair.R',
+    'z_upper_hair_R': 'DEF-z_upper_hair.R',
 }
