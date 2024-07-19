@@ -155,6 +155,37 @@ class OBJECT_OT_surimi_add_usual_modifiers(T.Operator):
 
 
 #
+class OBJECT_OT_surimi_toggle_bone_collection(T.Operator):
+    bl_idname = Ot.TOGGLE_BONE_COLLECTION
+    bl_label = 'Toggle Bone Collection'
+    bl_description = 'Toggles the visibility of a bone collection'
+    bl_options = {'REGISTER', 'UNDO'}
+
+    bone_collection: P.StringProperty(name='Bone Collection')
+
+    def execute(self, ctx: T.Context):
+        if not ctx.active_object.type == 'ARMATURE':
+            self.report({'ERROR'},
+                        'Operator can only be called on armatures',
+                        )
+            return {'CANCELLED'}
+
+        if not self.bone_collection:
+            self.report({'ERROR'},
+                        'Operator requires a bone collection name',
+                        )
+            return {'CANCELLED'}
+
+        obj = ctx.active_object
+        d: T.Armature = obj.data
+        colls = d.collections
+
+        coll = colls[self.bone_collection]
+        coll.is_visible = not coll.is_visible
+
+        return {'FINISHED'}
+
+#
 
 
 classes = [
@@ -162,6 +193,7 @@ classes = [
     OBJECT_OT_surimi_toggle_pose_position,
     OBJECT_OT_surimi_create_character_props,
     OBJECT_OT_surimi_add_usual_modifiers,
+    # OBJECT_OT_surimi_toggle_bone_collection,
 ]
 
 

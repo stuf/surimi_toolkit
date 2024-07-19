@@ -17,6 +17,7 @@ class Operators(str, Enum):
     # Experimental
     CHARACTER_SETUP_RENAME = 'surimi.character_setup_rename'
     ADD_USUAL_MODIFIERS = 'surimi.add_usual_modifiers'
+    TOGGLE_BONE_COLLECTION = 'surimi.toggle_bone_collection'
 
 
 class Panels(str, Enum):
@@ -29,6 +30,8 @@ class Panels(str, Enum):
     TOOLS_OBJECT = 'SURIMI_PT_panel_object'
     TOOLS_EXPERIMENTAL = 'SURIMI_PT_panel_experimental'
 
+    TOOLS_BONE_COLLECTIONS = 'SURIMI_PT_bone_collections'
+
     NA_HELPERS = 'NA_PT_srm_helpers'
     NA_NORMALIZE_SELECTED_FILENAMES = 'NA_PT_srm_normalize_selected_filenames'
     NA_MAT_IMPORTER = 'NA_PT_srm_node_mat_importer'
@@ -36,3 +39,11 @@ class Panels(str, Enum):
     NA_QUICK_NODES = 'NA_PT_srm_quick_nodes'
 
     PREFS_BASE_MODIFIER_SETTINGS = 'SURIMI_PT_prefs_base_modifier_settings'
+
+#
+
+
+class NodeColor(Enum):
+    MAT_GROUP = (0.2240482121706009, 0.284084677696228, 0.21454641222953796)
+    PARAM_GROUP = (0.4942544996738434, 0.3937067687511444, 0.6079999804496765)
+    TEX_GROUP = (0.38551008701324463, 0.47391942143440247, 0.6079999804496765)
