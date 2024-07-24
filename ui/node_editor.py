@@ -5,9 +5,6 @@ from bpy import context as C, data as D
 
 from ..declarations import Panels as Pt
 from ..operators.node_editor import (
-    NA_OT_srm_import_material,
-    NA_OT_srm_choose_import_material_dir,
-    NA_OT_srm_rename_material_textures,
     NA_OT_srm_add_imagetex,
     NA_OT_srm_add_node,
 )
@@ -124,7 +121,6 @@ class NA_PT_srm_quick_nodes(NA_PT_srm_node_base):
         layout = self.layout
 
         col = layout.column()
-        col.operator(NA_OT_srm_rename_material_textures.bl_idname)
 
         for label, rows in buttons.items():
             col = layout.column()
