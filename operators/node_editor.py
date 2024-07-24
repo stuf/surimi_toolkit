@@ -6,53 +6,9 @@ from bpy import context as C, data as D
 from ..declarations import Operators as Ot
 
 import logging
+import re
 
 logger = logging.getLogger(__name__)
-
-#
-
-
-class NA_OT_srm_choose_import_material_dir(T.Operator):
-    bl_idname = Ot.CHOOSE_IMPORT_MATERIAL_DIR
-    bl_label = 'Choose Import Material Dir'
-    bl_description = ''
-    bl_options = {'REGISTER'}
-
-    def execute(self, ctx: T.Context):
-        return {'FINISHED'}
-
-
-class NA_OT_srm_import_material(T.Operator):
-    bl_idname = Ot.IMPORT_MATERIAL
-    bl_label = 'Import Material'
-    bl_description = 'Imports and creates a PBR material from the given params'
-    bl_options = {'REGISTER', 'UNDO'}
-
-    def execute(self, ctx: T.Context):
-        obj = ctx.active_object
-        mat = obj.active_material
-
-        return {'FINISHED'}
-
-    def invoke(self, ctx: T.Context, evt):
-        wm = ctx.window_manager
-        return wm.invoke_props_dialog(self)
-
-#
-
-
-class NA_OT_srm_rename_material_textures(T.Operator):
-    bl_idname = Ot.RENAME_MATERIAL_TEXTURES
-    bl_label = 'Rename Material Textures'
-    bl_description = 'Rename image data in a material to match the material\'s name'
-    bl_options = {'REGISTER', 'UNDO'}
-
-    def execute(self, ctx: T.Context):
-        obj = ctx.active_object
-        mat = obj.active_material
-        nodes = mat.node_tree.nodes
-
-        return {'CANCELLED'}
 
 #
 
@@ -93,13 +49,77 @@ class NA_OT_srm_add_node(T.Operator):
 
         return {'FINISHED'}
 
+#
+
+
+class NA_OT_srm_normalize_selected_filenames(T.Operator):
+    """Normalize image names and their colorspace-related settings to match
+       naming convention with the current active material.
+
+       WARNING: Octane-only right now."""
+    bl_idname = Ot.NORMALIZE_SELECTED_FILENAMES
+    bl_label = 'Normalize Selectd Filenames'
+    bl_description = 'Normalize the asset names used in the selected nodes'
+    bl_options = {'REGISTER', 'UNDO'}
+
+    node_rna_types = {'ShaderNodeOctImageTex', 'OctaneRGBImage'}
+
+    gamma_values = [({'alb'}, 2.2),
+                    ]
+
+    def execute(self, ctx: T.Context):
+        obj = ctx.active_object
+        mat = obj.active_material
+        mat_name = mat.name
+        nodes = mat.node_tree.nodes
+
+        selected: list[T.Node] = \
+            [n
+             for n in nodes
+             if n.select
+             and n.bl_rna.identifier in self.node_rna_types]
+
+        for n in selected:
+            print(f'{n=}')
+            img: T.Image = n.image
+            img_name = img.name
+
+            if not img_name.startswith(mat_name):
+                print(f'Image name `{img_name=}` does not '
+                      f'start with `{mat_name=}`, skipping.')
+                continue
+
+            tail = img_name.removeprefix(f'{mat_name}_')
+            tail = re.match(r'(\w+)', tail)
+
+            if not tail:
+                print('Something silly going on')
+                print(f' - {img_name=}')
+                print(f' - {mat_name=}')
+                print(f' - {tail=}')
+                continue
+
+            tail = tail.group(1).lower()
+            n.image.name = '-'.join([mat_name, tail])
+            n.label = tail
+            n.name = f'NODE-{n.image.name}'
+
+            for types, gamma_value in self.gamma_values:
+                socket = n.inputs['Legacy gamma']
+                if tail in types or tail.capitalize() in types:
+                    socket.default_value = gamma_value
+                else:
+                    socket.default_value = 1.0
+
+        return {'FINISHED'}
+
+#
+
 
 classes = [
-    NA_OT_srm_import_material,
-    NA_OT_srm_choose_import_material_dir,
-    NA_OT_srm_rename_material_textures,
     NA_OT_srm_add_imagetex,
     NA_OT_srm_add_node,
+    NA_OT_srm_normalize_selected_filenames,
 ]
 
 

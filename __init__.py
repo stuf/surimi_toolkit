@@ -2,8 +2,8 @@ bl_info = {
     "name": "Surimi Toolkit",
     "category": "3D View",
     "author": "piparkaq",
-    "version": (0, 5, 0),
-    "blender": (3, 6, 0),
+    "version": (0, 6, 0),
+    "blender": (4, 0, 0),
     "location": "View3D > Sidebar > Item",
     "description": "Adds a number of useful functions for Splatoon stuff (or in general)",
     "warning": "Experimental",
@@ -11,12 +11,11 @@ bl_info = {
     "tracker_url": "https://github.com/stuf/surimi_toolkit/issues"
 }
 
-import logging
-import bpy.types as T
-
 from .util.register import module_register_factory, cleanse_modules
-from .util.logging import setup_logger
 from .util.preferences import get_prefs
+from .util.logging import setup_logger
+import bpy.types as T
+import logging
 
 logger = logging.getLogger(f'{__name__}_MAIN')
 
@@ -25,7 +24,6 @@ logger = logging.getLogger(f'{__name__}_MAIN')
 
 base_modules = [
     'base',
-    'properties',
     'operators',
     'ui',
 ]

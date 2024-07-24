@@ -122,6 +122,7 @@ class OBJECT_OT_surimi_add_usual_modifiers(T.Operator):
 
     TODO: Maybe put modifiers in the correct order in the modifier stack
     TODO: Allow configuration of settings from preferences
+    FIXME: This doesn't work on 4.1 or later due to `use_auto_smooth` not being a thing
     """
     bl_idname = Ot.ADD_USUAL_MODIFIERS
     bl_label = 'Add Usual Modifiers'

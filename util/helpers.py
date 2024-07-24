@@ -1,10 +1,11 @@
-import re
 import bpy
 import bpy.types as T
 import bpy.props as P
 from bpy import context as C, data as D
 
+import re
 import logging
+
 from typing import Tuple
 
 logger = logging.getLogger(__name__)
@@ -26,19 +27,19 @@ def is_in_pose_position(armature: T.Armature):
     return armature.pose_position == 'POSE'
 
 
-def render_engine_is_cycles(ctx: T.Context):
+def render_engine_is(name, ctx: T.Context):
     try:
-        return ctx.scene.render.engine == 'cycles'
+        return ctx.scene.render.engine == name
     except (AttributeError):
         return False
+
+
+def render_engine_is_cycles(ctx: T.Context):
+    return render_engine_is('cycles', ctx)
 
 
 def render_engine_is_octane(ctx: T.Context):
-    try:
-        logger.info('is render engine octane? %s', C.scene.render.engine)
-        return ctx.scene.render.engine == 'octane'
-    except (AttributeError):
-        return False
+    return render_engine_is('octane', ctx)
 
 #
 

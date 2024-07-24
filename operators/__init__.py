@@ -8,7 +8,6 @@ logger = logging.getLogger(__name__)
 
 MODULES = [
     'view3d',
-    'character',
     'node_editor',
 ]
 
