@@ -26,7 +26,7 @@ Things available in the sidebar:
 
 ## Requirements
 
-- Blender 4.0.0 (probably works on pre-4.0 too)
+- Blender 4.0
 
 ## Installation
 
