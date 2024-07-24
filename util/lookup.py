@@ -28,8 +28,9 @@ WEIGHT_LOOKUP = {
     'Spine_3': 'DEF-spine.003',
     'Neck': 'DEF-spine.004',
 
+    # Head and head-related
     'Head': 'DEF-spine.006',
-    'Head_Root': 'DEF-spine.006',
+    'Head_Root': 'DEF-spine.006',  # This especially for eyebrows
 
     # Shoulders & Arms
     'Clavicle_L': 'DEF-shoulder.L',
