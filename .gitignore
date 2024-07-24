@@ -4,3 +4,5 @@ __pycache__/
 .lsp/
 
 *.pyc
+
+.clj-kondo/
