@@ -143,55 +143,6 @@ class SURIMI_PT_panel_object(SURIMI_PT_panel_base):
 
 #
 
-class SURIMI_PT_panel_experimental(SURIMI_PT_panel_base):
-    bl_idname = Pt.TOOLS_EXPERIMENTAL
-    bl_label = 'Experimental'
-
-    @classmethod
-    def poll(cls, ctx: T.Context):
-        return is_experimental()
-
-    def draw(self, ctx: T.Context):
-        layout = self.layout
-        obj = ctx.active_object
-        props = obj.surimi_props
-
-        col = layout.column(align=True)
-        col.enabled = False
-
-        row = col.column()
-        row.operator(Ot.CREATE_CHARACTER_PROPS)
-        row.operator(Ot.CREATE_CHARACTER_PROPS, text="Create Nodegroups")
-
-        col.separator()
-
-        row = col.box().row()
-        row.prop(props, 'character_color_1')
-
-        row = col.box().row()
-        row.prop(props, 'character_color_2')
-
-        col.separator()
-
-        row = col.box().row()
-        row.prop(props, 'skin_tone_1')
-
-        row = col.box().row()
-        row.prop(props, 'skin_tone_2')
-
-        row = col.box().row()
-        row.prop(props, 'skin_tone_3')
-
-        col.separator()
-
-        row = col.box().row()
-        row.prop(props, 'eye_pupil_size')
-
-        row = col.box().row()
-        row.prop(props, 'eye_pupil_depth')
-
-#
-
 
 classes = [
     SURIMI_PT_panel_viewport,
