@@ -105,22 +105,26 @@ CLASSES = [
 ]
 
 PROPS = [
-    ('surimi_props', T.Object, P.PointerProperty(type=CharacterProps)),
-    ('surimi_mat_importer', T.Material, P.PointerProperty(type=MatImporterProps)),
-    ('surimi_root_props', T.Object, P.PointerProperty(
-        type=SurimiRootCollectionProperties)),
+    # ('surimi_props', T.Object, P.PointerProperty(type=CharacterProps)),
+    # ('surimi_mat_importer', T.Material, P.PointerProperty(type=MatImporterProps)),
+    # ('surimi_root_props', T.Collection, P.PointerProperty(
+    #     type=SurimiRootCollectionProperties)),
 ]
 
 
 def register():
-    ot_names = [ot.__name__ for ot in CLASSES]
-    logger.info('register custom properties: %s', ot_names)
+    logger.info('register custom properties')
+
+    for name, obj, prop in PROPS:
+        logger.info(' - properties:')
+        logger.info('   - props: %s', name)
+        logger.info('   - on:    %s', obj.__name__)
+        logger.info('   - prop:  %s', prop)
 
     for cls in CLASSES:
         bpy.utils.register_class(cls)
 
     for k, Type, prop in PROPS:
-        # Type[k] = prop
         setattr(Type, k, prop)
 
 

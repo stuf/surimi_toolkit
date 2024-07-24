@@ -38,7 +38,6 @@ class SURIMI_PT_panel_main(SURIMI_PT_panel_base):
 class SURIMI_PT_panel_render_octane(SURIMI_PT_panel_base):
     bl_idname = Pt.TOOLS_RENDER_OCTANE
     bl_label = 'Render (Octane)'
-    # bl_parent_id = SURIMI_PT_panel_main.bl_idname
 
     @classmethod
     def poll(cls, ctx: T.Context):
@@ -58,7 +57,6 @@ class SURIMI_PT_panel_render_octane(SURIMI_PT_panel_base):
 class SURIMI_PT_panel_render(SURIMI_PT_panel_base):
     bl_idname = Pt.TOOLS_RENDER
     bl_label = 'Render'
-    # bl_parent_id = SURIMI_PT_panel_main.bl_idname
 
     @classmethod
     def poll(cls, ctx: T.Context):
@@ -71,7 +69,7 @@ class SURIMI_PT_panel_render(SURIMI_PT_panel_base):
         layout.use_property_split = True
         layout.use_property_decorate = True
 
-        if scene.render.engine == 'cycles':
+        if render_engine_is_cycles(ctx):
             row = layout.column()
             row.prop(scene.cycles, 'preview_samples', text='Preview')
             row.prop(scene.cycles, 'samples', text='Render')
@@ -85,7 +83,6 @@ class SURIMI_PT_panel_render(SURIMI_PT_panel_base):
 class SURIMI_PT_panel_viewport(SURIMI_PT_panel_base):
     bl_idname = Pt.TOOLS_VIEWPORT
     bl_label = 'Viewport'
-    # bl_parent_id = SURIMI_PT_panel_main.bl_idname
 
     def draw(self, ctx: T.Context):
         layout = self.layout
@@ -105,7 +102,6 @@ class SURIMI_PT_panel_viewport(SURIMI_PT_panel_base):
 class SURIMI_PT_panel_armature(SURIMI_PT_panel_base):
     bl_idname = Pt.TOOLS_ARMATURE
     bl_label = 'Armature'
-    # bl_parent_id = SURIMI_PT_panel_main.bl_idname
 
     @classmethod
     def poll(cls, ctx: T.Context):
@@ -132,7 +128,6 @@ class SURIMI_PT_panel_armature(SURIMI_PT_panel_base):
 class SURIMI_PT_panel_object(SURIMI_PT_panel_base):
     bl_idname = Pt.TOOLS_OBJECT
     bl_label = 'Object'
-    # bl_parent_id = SURIMI_PT_panel_main.bl_idname
 
     @classmethod
     def poll(cls, ctx: T.Context):
@@ -151,7 +146,6 @@ class SURIMI_PT_panel_object(SURIMI_PT_panel_base):
 class SURIMI_PT_panel_experimental(SURIMI_PT_panel_base):
     bl_idname = Pt.TOOLS_EXPERIMENTAL
     bl_label = 'Experimental'
-    bl_parent_id = SURIMI_PT_panel_main.bl_idname
 
     @classmethod
     def poll(cls, ctx: T.Context):
@@ -199,48 +193,12 @@ class SURIMI_PT_panel_experimental(SURIMI_PT_panel_base):
 #
 
 
-class SURIMI_PT_bone_collection_toggle(SURIMI_PT_panel_base):
-    """Interface listing bone collections for the active armature,
-       allowing toggling visibility of collections."""
-    bl_idname = Pt.TOOLS_BONE_COLLECTIONS
-    bl_label = 'Bone Collections'
-
-    @classmethod
-    def poll(cls, ctx: T.Context):
-        return ctx.active_object.type == 'ARMATURE'
-
-    def draw(self, ctx: T.Context):
-        obj = ctx.active_object
-        data: T.Armature = obj.data
-        colls = data.collections
-
-        layout = self.layout
-
-        row = layout.row()
-
-        for ix, (name, collection) in enumerate(colls.items()):
-            op = row.operator(OBJECT_OT_surimi_toggle_bone_collection.bl_idname,
-                              text=name,
-                              depress=collection.is_visible,
-                              )
-
-            op.bone_collection = collection.name
-
-            if ix % 2 == 1:
-                row = layout.row()
-
-#
-
-
 classes = [
-    # SURIMI_PT_panel_main,
     SURIMI_PT_panel_viewport,
     SURIMI_PT_panel_render,
     SURIMI_PT_panel_render_octane,
     SURIMI_PT_panel_object,
     SURIMI_PT_panel_armature,
-    # SURIMI_PT_bone_collection_toggle,
-    # SURIMI_PT_panel_experimental,
 ]
 
 

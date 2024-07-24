@@ -1,3 +1,4 @@
+from traceback import print_exc
 import bpy
 import bpy.types as T
 import bpy.props as P
@@ -35,7 +36,7 @@ def render_engine_is(name, ctx: T.Context):
 
 
 def render_engine_is_cycles(ctx: T.Context):
-    return render_engine_is('cycles', ctx)
+    return render_engine_is('CYCLES', ctx)
 
 
 def render_engine_is_octane(ctx: T.Context):
