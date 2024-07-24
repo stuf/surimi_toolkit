@@ -1,3 +1,6 @@
+"""Rename parts of image filenames
+   matching a certain pattern into another, adding the image suffix and `IMG-` prefix.
+"""
 import bpy
 import bpy.types as T
 import bpy.props as P

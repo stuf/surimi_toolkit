@@ -1,6 +1,7 @@
-"""
-Eliminate duplicate materials that occur when importing multiple models,
-and create a basic shader nodetree setup for them.
+"""Eliminate duplicate materials that occur when importing multiple models,
+   and create a basic shader nodetree setup for them.
+
+   N.B. Currently untested
 """
 import bpy
 import bpy.types as T
@@ -104,6 +105,7 @@ def reassign_duplicates(objects: T.Object):
                 continue
 
             match = re.match(r'(\w+)(_\w{2})?', slot.material.name)
+            print(f'match: {match}')
 
             if not match:
                 continue
@@ -159,7 +161,7 @@ def main():
         for tex_type, tex_path in v.items():
             print(f'   - {tex_type=}\t{tex_path=}')
 
-    # reassign_duplicates(D.objects)
+    reassign_duplicates(D.objects)
 
 
 if __name__ == '__main__':
