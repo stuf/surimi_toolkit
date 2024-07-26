@@ -3,6 +3,7 @@
 Shorthands to some functions I find myself missing in my day to day Blender work from the comfort of the 3D view (without having to fumblr around in settings panels)
 
 - [Features ✨](#features-)
+- [Screenshots](#screenshots)
 - [Requirements](#requirements)
 - [Installation](#installation)
 - [Acknowledgements](#acknowledgements)
@@ -22,7 +23,18 @@ Things available in the sidebar:
 - Change preview and render max samples settings
 - Easily change preview render pixel size
 - Quickly rename in-game objects weights to match rigify weights names (**Only when meshes are selected**)
+  - Addable to Blender's [Quick Favorites][www-blenderdocs-quick-favorites]
 - Quick toggle of pose and rest position for armatures (**Only when armatures are selected**)
+  - Addable to Blender's [Quick Favorites][www-blenderdocs-quick-favorites]
+
+## Screenshots
+
+|                                                                       |                                                                               |
+| --------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| ![Cycles UI](./assets/cycles_ui.png)                                  | ![Octane Render UI](./assets/octane_ui.png)                                   |
+| <center>Quick cycles render settings</center>                         | <center>Quick Octane Render settings</center>                                 |
+| ![Object UI](./assets/object_ui.png)                                  | ![Armature UI](./assets/armature_ui.png)                                      |
+| <center>Objects are selected; allows for renaming of weights</center> | <center>Armature is selected, allows for toggling pose/rest position</center> |
 
 ## Requirements
 
@@ -84,3 +96,7 @@ Implement operators out of these scripts:
 ### Other ???
 
 - [ ] Make it easier to make a nodegroup or similar that has characer properties for use in nodes (making drivers by hand is boring)
+
+---
+
+[www-blenderdocs-quick-favorites]: https://docs.blender.org/manual/en/4.1/interface/tool_system.html#quick-favorites
