@@ -18,6 +18,7 @@ class Operators(str, Enum):
     CHARACTER_SETUP_RENAME = 'surimi.character_setup_rename'
     ADD_USUAL_MODIFIERS = 'surimi.add_usual_modifiers'
     TOGGLE_BONE_COLLECTION = 'surimi.toggle_bone_collection'
+    EXPERIMENTAL_NORMALIZE_IMAGE_NODES = 'surimi.experimental_normalize_image_nodes'
 
 
 class Panels(str, Enum):
