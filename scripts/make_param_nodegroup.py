@@ -39,6 +39,7 @@ class SocketKind(str, Enum):
 
 
 class NodeType(str, Enum):
+    SHADER_NODE_TREE = 'ShaderNodeTree'
     RGB = 'ShaderNodeRGB'
     VALUE = 'ShaderNodeValue'
     GROUP_INPUT = 'NodeGroupInput'
@@ -141,25 +142,25 @@ def execute():
     if NODEGROUP_NAME in D.node_groups:
         D.node_groups.remove(D.node_groups.get(NODEGROUP_NAME))
 
-    grp = D.node_groups.new(NODEGROUP_NAME, 'ShaderNodeTree')
+    grp = D.node_groups.new(NODEGROUP_NAME, NodeType.SHADER_NODE_TREE)
 
-    for n, p in panels.items():
-        sockets[n] = []
-        panel = grp.interface.new_panel(n)
+    for panel_name, panel_sockets in panels.items():
+        sockets[panel_name] = []
+        panel = grp.interface.new_panel(panel_name)
 
         # If a panel is empty, bail out of this iteration
-        if not len(p):
+        if not len(panel_sockets):
             continue
 
         # Since we have a panel that should have sockets in it,
         # iterate and create them
-        for s in p:
+        for socket in panel_sockets:
             # If we've done something silly, bail out without doing anything
-            if not s.keys():
+            if not socket.keys():
                 continue
 
             name, description, in_out, socket_type = itemgetter(
-                'name', 'description', 'in_out', 'socket_type')(s)
+                'name', 'description', 'in_out', 'socket_type')(socket)
 
             grp.interface.new_socket(
                 name,
@@ -169,7 +170,7 @@ def execute():
                 parent=panel,
             )
 
-    # Create inputs and outputs
+    # Create group input and output nodes
     g_out = grp.nodes.new(NodeType.GROUP_OUTPUT)
     g_out.name = 'Output'
     g_out.location = (100, 0)
@@ -177,9 +178,9 @@ def execute():
     g_in.location = (-550, 0)
 
     # Create the nodes themselves
-    for n in nodes:
+    for panel_name in nodes:
         node_type, name, location, values = itemgetter(
-            'type', 'name', 'location', 'values')(n)
+            'type', 'name', 'location', 'values')(panel_name)
         node = grp.nodes.new(node_type)
         node.name = name
         node.label = name
