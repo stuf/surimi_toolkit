@@ -7,6 +7,7 @@ from ..declarations import Panels as Pt
 from ..operators.node_editor import (
     NA_OT_srm_add_imagetex,
     NA_OT_srm_add_node,
+    NA_OT_surimi_experimental_normalize_image_nodes,
 )
 from ..util.helpers import (
     render_engine_is_cycles,
@@ -135,16 +136,17 @@ class NA_PT_srm_quick_nodes(NA_PT_srm_node_base):
                     ot.node_width = node_width
 
 
-class NA_PT_srm_node_normalize_selected_filenames(NA_PT_srm_node_base):
-    bl_idname = Pt.NA_NORMALIZE_SELECTED_FILENAMES
-    bl_label = 'Normalize'
+class NA_PT_srm_node_other(NA_PT_srm_node_base):
+    bl_idname = Pt.NA_OTHER
+    bl_label = 'Other'
     bl_parent_id = Pt.NA_HELPERS
 
     def draw(self, ctx: T.Context):
         layout = self.layout
 
         col = layout.column()
-        col.label(text='Column 123')
+        col.operator(NA_OT_surimi_experimental_normalize_image_nodes.bl_idname,
+                     text='Normalize images')
 
 
 #
@@ -153,7 +155,7 @@ classes = [
     NA_PT_srm_node_mat_importer,
     NA_PT_srm_helpers,
     NA_PT_srm_quick_nodes,
-    NA_PT_srm_node_normalize_selected_filenames,
+    NA_PT_srm_node_other,
 ]
 
 

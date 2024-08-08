@@ -38,6 +38,7 @@ class Panels(str, Enum):
     NA_MAT_IMPORTER = 'NA_PT_srm_node_mat_importer'
     NA_RENAME_IMAGES = 'NA_PT_srm_rename_images'
     NA_QUICK_NODES = 'NA_PT_srm_quick_nodes'
+    NA_OTHER = 'NA_PT_srm_node_other'
 
     PREFS_BASE_MODIFIER_SETTINGS = 'SURIMI_PT_prefs_base_modifier_settings'
 
