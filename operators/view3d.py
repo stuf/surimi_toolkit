@@ -100,6 +100,33 @@ class OBJECT_OT_surimi_rename_weights(T.Operator):
 #
 
 
+class OBJECT_OT_surimi_set_subdiv_display(T.Operator):
+    bl_idname = Ot.SET_SUBDIV_DISPLAY
+    bl_label = 'Optimal display'
+    bl_description = 'Enables or disables the `Optimal Display` property of the selected ' \
+        'objects\' subdivision surface modifiers'
+    bl_options = {'REGISTER', 'UNDO'}
+
+    set_value: P.BoolProperty(
+        name="Enable"
+    )
+
+    def execute(self, ctx: T.Context):
+        objs: list[T.Object] = [
+            o for o in ctx.selected_objects if o.type == 'MESH']
+
+        if not len(objs):
+            return {'CANCELLED'}
+
+        for obj in objs:
+            subdivs: list[T.SubsurfModifier] = [
+                m for m in obj.modifiers if m.type == 'SUBSURF']
+            for m in subdivs:
+                m.show_only_control_edges = self.set_value
+
+        return {'FINISHED'}
+
+
 class OBJECT_OT_surimi_create_character_props(T.Operator):
     bl_idname = Ot.CREATE_CHARACTER_PROPS
     bl_label = 'Create Character Props'
@@ -195,6 +222,7 @@ classes = [
     OBJECT_OT_surimi_create_character_props,
     OBJECT_OT_surimi_add_usual_modifiers,
     # OBJECT_OT_surimi_toggle_bone_collection,
+    OBJECT_OT_surimi_set_subdiv_display,
 ]
 
 

@@ -10,7 +10,7 @@ from ..util.preferences import is_experimental
 
 from ..operators.view3d import (OBJECT_OT_surimi_rename_weights,
                                 OBJECT_OT_surimi_toggle_pose_position,
-                                OBJECT_OT_surimi_toggle_bone_collection,
+                                OBJECT_OT_surimi_set_subdiv_display,
                                 )
 
 logger = logging.getLogger(__name__)
@@ -70,7 +70,7 @@ class SURIMI_PT_panel_render(SURIMI_PT_panel_base):
         layout.use_property_decorate = True
 
         if render_engine_is_cycles(ctx):
-            row = layout.column()
+            row = layout.column(align=True)
             row.prop(scene.cycles, 'preview_samples', text='Preview')
             row.prop(scene.cycles, 'samples', text='Render')
 
@@ -139,6 +139,20 @@ class SURIMI_PT_panel_object(SURIMI_PT_panel_base):
 
         row = layout.column()
         row.operator(OBJECT_OT_surimi_rename_weights.bl_idname)
+
+        layout.separator()
+
+        row = layout.column()
+        row.label(text="Subdiv. optimal display")
+
+        row = layout.row(align=True)
+        subdiv_optimal_enable = row.operator(
+            OBJECT_OT_surimi_set_subdiv_display.bl_idname, text="Enable")
+        subdiv_optimal_enable.set_value = True
+
+        subdiv_optimal_disable = row.operator(
+            OBJECT_OT_surimi_set_subdiv_display.bl_idname, text="Disable")
+        subdiv_optimal_disable.set_value = False
 
 
 #
