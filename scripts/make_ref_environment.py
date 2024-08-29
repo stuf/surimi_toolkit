@@ -45,6 +45,7 @@ def main():
     wrl = D.worlds.new(WORLD_NAME)
 
     wrl.use_nodes = True
+    wrl.use_fake_user = True
 
     nodes = wrl.node_tree.nodes
     links = wrl.node_tree.links
