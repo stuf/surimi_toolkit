@@ -20,6 +20,7 @@ class Operators(str, Enum):
     CHARACTER_SETUP_RENAME = 'surimi.character_setup_rename'
     ADD_USUAL_MODIFIERS = 'surimi.add_usual_modifiers'
     TOGGLE_BONE_COLLECTION = 'surimi.toggle_bone_collection'
+    EXPERIMENTAL_REMOVE_EMPTY_VERTEX_GROUPS = 'surimi.experimental_remove_empty_vertex_groups'
     EXPERIMENTAL_NORMALIZE_IMAGE_NODES = 'surimi.experimental_normalize_image_nodes'
 
     EXPERIMENTAL_SCRIPT_MAKE_REF_ENV = 'surimi.script_make_ref_environment'
@@ -36,6 +37,7 @@ class Panels(str, Enum):
     TOOLS_ARMATURE = 'SURIMI_PT_panel_armature'
     TOOLS_OBJECT = 'SURIMI_PT_panel_object'
     TOOLS_EXPERIMENTAL = 'SURIMI_PT_panel_experimental'
+    TOOLS_MESH = 'SURIMI_PT_panel_mesh'
 
     TOOLS_BONE_COLLECTIONS = 'SURIMI_PT_bone_collections'
 

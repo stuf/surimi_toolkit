@@ -2,6 +2,7 @@ import logging
 import bpy
 import bpy.types as T
 import bpy.props as P
+from pprint import pprint
 
 from ..util.lookup import WEIGHT_LOOKUP
 from ..declarations import Operators as Ot
@@ -164,8 +165,8 @@ class OBJECT_OT_surimi_add_usual_modifiers(T.Operator):
 
             return {'CANCELLED'}
 
-        data: T.Mesh = obj.data
-        data.use_auto_smooth = False
+        # data: T.Mesh = obj.data
+        # data.use_auto_smooth = False
 
         bevel: T.BevelModifier = obj.modifiers.new(name='Bevel', type='BEVEL')
         bevel.show_in_editmode = False
@@ -176,6 +177,7 @@ class OBJECT_OT_surimi_add_usual_modifiers(T.Operator):
 
         subdiv: T.SubsurfModifier = obj.modifiers.new(
             name='Subdiv', type='SUBSURF')
+        subdiv.boundary_smooth = 'PRESERVE_CORNERS'
         subdiv.show_in_editmode = False
         subdiv.show_expanded = False
 
@@ -213,8 +215,76 @@ class OBJECT_OT_surimi_toggle_bone_collection(T.Operator):
 
         return {'FINISHED'}
 
-#
 
+class OBJECT_OT_surimi_remove_empty_vertex_groups(T.Operator):
+    bl_idname = Ot.EXPERIMENTAL_REMOVE_EMPTY_VERTEX_GROUPS
+    bl_label = 'Remove empty vertex groups (EXPERIMENTAL)'
+    bl_description = 'Removes empty vertex groups from the selected objects'
+    bl_options = {'REGISTER', 'UNDO'}
+
+    def collect_weights(self, obj: T.Object):
+        max_w = {}
+
+        for k, g in obj.vertex_groups.items():
+            max_w[g.index] = 0
+
+        mesh: T.Mesh = obj.data
+        for v in mesh.vertices:
+            vert: T.MeshVertex = v
+            for g in vert.groups:
+                vg: T.VertexGroupElement = g
+                vgn = vg.group
+                w = obj.vertex_groups[vgn].weight(vert.index)
+
+                if max_w.get(vgn) is None or w > max_w[vgn]:
+                    max_w[vgn] = w
+
+        return max_w
+
+    def execute(self, ctx: T.Context):
+        if bpy.context.mode != 'OBJECT':
+            self.report(
+                {'ERROR'}, 'This operator can only be used in object mode')
+            return {'CANCELLED'}
+
+        tot_objs = 0
+        tot_groups = 0
+        removed_groups = 0
+
+        for o in ctx.selected_objects:
+            tot_objs += 1
+
+            obj: T.Object = o
+            if obj.type != 'MESH':
+                logger.warning('`%s` is not a mesh, skipping', obj.name)
+                continue
+
+            logger.info('Processing `%s`', obj.name)
+
+            ws = self.collect_weights(obj)
+
+            group_indices = []
+            group_indices.extend(ws.keys())
+            group_indices.sort(key=lambda gn: -gn)
+            tot_groups += len(group_indices)
+
+            for i in group_indices:
+                if ws[i] <= 0:
+                    vg: T.VertexGroup = obj.vertex_groups[i]
+                    logger.info(
+                        ' - remove empty vertex group %s -> %s', obj.name, vg.name)
+                    obj.vertex_groups.remove(vg)
+                    removed_groups += 1
+
+            logger.info('- Processed %s', obj.name)
+
+        logger.info('Cleaned up %s selected object(s) - %s groups, %s removed',
+                    tot_objs, tot_groups, removed_groups)
+
+        return {'FINISHED'}
+
+
+#
 
 classes = [
     OBJECT_OT_surimi_rename_weights,
@@ -223,6 +293,7 @@ classes = [
     OBJECT_OT_surimi_add_usual_modifiers,
     # OBJECT_OT_surimi_toggle_bone_collection,
     OBJECT_OT_surimi_set_subdiv_display,
+    OBJECT_OT_surimi_remove_empty_vertex_groups,
 ]
 
 

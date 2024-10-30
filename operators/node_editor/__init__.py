@@ -2,14 +2,12 @@ import logging
 import bpy
 import bpy.types as T
 
-from ..util.register import module_register_factory
+from ...util.register import module_register_factory
 
 logger = logging.getLogger(__name__)
 
 MODULES = [
-    'view3d',
-    'node_editor',
-    'scripts',
+    'basic',
 ]
 
 reg, unreg = module_register_factory(__name__, MODULES)

@@ -155,6 +155,24 @@ class SURIMI_PT_panel_object(SURIMI_PT_panel_base):
         subdiv_optimal_disable.set_value = False
 
 
+class SURIMI_PT_panel_mesh(SURIMI_PT_panel_base):
+    bl_idname = Pt.TOOLS_MESH
+    bl_label = 'Mesh'
+
+    @classmethod
+    def poll(cls, ctx: T.Context):
+        mesh_selected = ctx.active_object.type == 'MESH'
+        in_edit_mode = ctx.mode == 'EDIT_MESH'
+        return mesh_selected and in_edit_mode
+
+    def draw(self, ctx: T.Context):
+        layout = self.layout
+        obj = ctx.active_object
+
+        row = layout.column()
+        row.label(text='ASK:DJ')
+        row.label(text=f'Current mode: {ctx.mode}')
+
 #
 
 
@@ -164,6 +182,7 @@ classes = [
     SURIMI_PT_panel_render_octane,
     SURIMI_PT_panel_object,
     SURIMI_PT_panel_armature,
+    SURIMI_PT_panel_mesh,
 ]
 
 

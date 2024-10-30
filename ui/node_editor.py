@@ -4,7 +4,7 @@ import bpy.props as P
 from bpy import context as C, data as D
 
 from ..declarations import Panels as Pt
-from ..operators.node_editor import (
+from ..operators.node_editor.basic import (
     NA_OT_srm_add_imagetex,
     NA_OT_srm_add_node,
     NA_OT_surimi_experimental_normalize_image_nodes,
