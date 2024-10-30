@@ -11,6 +11,7 @@
   },
   "files.exclude": {
     "**/__pycache__": true,
-    "**/.lsp": true
+    "**/.lsp": true,
+    "**/*.oso": true
   }
 }
