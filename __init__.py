@@ -2,7 +2,7 @@ bl_info = {
     "name": "Surimi Toolkit",
     "category": "3D View",
     "author": "piparkaq",
-    "version": (0, 6, 0),
+    "version": (0, 7, 0),
     "blender": (4, 0, 0),
     "location": "View3D > Sidebar > Item",
     "description": "Adds a number of useful functions for Splatoon stuff (or in general)",
